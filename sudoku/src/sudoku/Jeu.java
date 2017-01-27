@@ -17,10 +17,19 @@ public class Jeu {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ArrayList<Case> list = new ArrayList<>();
-        list = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-        Zone z = new Zone(list);
-        System.out.println(c);
+        Zone z = new Zone();
+        z.setZ();
+        /*Case c = new Case();
+        Case d = new Case();
+        for (int i = 1; i < 10; i++) {
+            c.setN(i);
+            d.setN(i + 1);
+            z.add(c);
+            z.add(d);
+            System.out.println(z);
+        }
+        
+        System.out.println(z);*/
         
         
     }

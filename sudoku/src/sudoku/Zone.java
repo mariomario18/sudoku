@@ -11,18 +11,32 @@ import java.util.ArrayList;
  *
  * @author youma
  */
-public class Zone extends ArrayList<Case>{
+public class Zone{
     
     public ArrayList<Case> z;
     
-    public Zone(ArrayList<Case> z){
-        this.z = z;     
+    /*public Zone(){
+        this.z = z;
+    }*/
+    
+    public void setZ(){
+        int k = 0;
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    z.add();
+                    System.out.println(z);
+                    k++;
+                }
+                k++;
+            }
     }
+    
     
     public String ToString(){
         StringBuilder str = new StringBuilder();
-        for (int i = 0; i < 9; i++) {
-            str.append(z.get(i));   
+        for (int i = 0; i < this.z.size(); i++) {
+            str.append(this.z.get(i));
+            System.out.println(this);
         }
         return str.toString();        
     }
