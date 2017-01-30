@@ -10,34 +10,38 @@ package sudoku;
  * @author youma
  */
 public class Case {
-    public int n;
+    public int nb;
     public boolean fixe;
-
-    public Case(int n) {
-        this.n = n;
-        this.fixe = true;
-    }
     
-    public Case() {
-        this.n = 0;
+    public Case(){
+        this.nb = 0;
         this.fixe = false;
     }
-
-    public int getN() {
-        return n;
+    
+    public Case(int nb){
+        this.nb = nb;
+        this.fixe = false;
     }
-
-    public void setN(int n) {
-        this.n = n;
+    
+    public Case(int nb, boolean fixe){
+        this.nb = nb;
+        this.fixe = fixe;
     }
-
+    
+    public int getNb(){
+        return this.nb;
+    }
+    
+    public void setNb(int nb){
+        this.nb = nb;
+    }
+    
+    public boolean getFixe(){
+        return this.fixe;
+    }
+    
     @Override
-    public String toString() {
-        StringBuilder str = new StringBuilder();
-        str.append(n);
-        return str.toString();
+    public String toString(){
+        return Integer.toString(nb);
     }
-    
-    
-    
 }
