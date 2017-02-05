@@ -37,8 +37,10 @@ public class Jeu {
         }
         Grille grille = new Grille(tab);
         grille.displayGrille();*/
+        
         Path file = FileSystems.getDefault().getPath("grid", "grid.txt");
         Charset charset = Charset.forName("UTF-8");
+        
         try (BufferedReader reader = Files.newBufferedReader(file, charset)) {
             String line = null;
             
@@ -58,16 +60,18 @@ public class Jeu {
                         tab[i][j] = new Case(nb);
                     k++;
                 }
-                i++;
-                
+                i++;      
             }
+            
             Grille grille = new Grille(tab);
+            Fenetre fen = new Fenetre(grille);
             grille.displayGrille();
             
-            if (grille.estValide(0)){
+            /*if (grille.estValide(0)){
                 System.out.println("Voila la solution : ");
                 grille.displayGrille();
                 file = FileSystems.getDefault().getPath("grid", "solution.txt");
+                
                 try (BufferedWriter writer = Files.newBufferedWriter(file, charset)) {
                     for (i = 0; i < 9; i++) {
                         for (int j = 0; j < 9; j++){                 
@@ -77,14 +81,14 @@ public class Jeu {
                         writer.write("\n", 0, 1);
                     }
                 } catch (IOException x) {
-                    System.err.format("IOException: %s%n", x);
+                    System.err.format("Une erreur s'est produite lors de l'écriture du fichier...", x);
                 }
             }
             else
-                System.out.println("Il n'y a pas de solution, dsl...");
-        } 
+                System.out.println("La grille n'est pas valide...");*/
+        }
         catch (IOException x) {
-            System.err.format("IOException: %s%n", x);
+            System.err.format("Le fichier de la grille n'a pas pu être ouvert...", x);
         }
     }
     
