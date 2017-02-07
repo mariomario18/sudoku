@@ -17,8 +17,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.FileSystems;
@@ -46,7 +48,7 @@ public class Fenetre extends JFrame implements ActionListener{
         System.out.println(nom);
         
         if(nom == "Ouvrir"){
-            
+            ouvrir();
         }
        
         if(nom == "Fermer"){
@@ -59,33 +61,7 @@ public class Fenetre extends JFrame implements ActionListener{
         
         
         if(nom == "Enregistrer sous"){
-            JFileChooser chooser = new JFileChooser();
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("txt file","txt");
-            chooser.setFileFilter(filter);
-            int returnVal = chooser.showOpenDialog(this);
-            
-            if(returnVal==JFileChooser.APPROVE_OPTION){
-                File file = new File(chooser.getSelectedFile().getName());
-                Path path = FileSystems.getDefault().getPath(file.getPath(), file.getName());
-                Charset charset = Charset.forName("UTF-8");
-                System.out.println(file.getAbsolutePath());
-                System.out.println(file.getName());
-                try (BufferedWriter writer = Files.newBufferedWriter(path, charset)) {
-                    for (int i = 0; i < 9; i++) {
-                        for (int j = 0; j < 9; j++){                 
-                            writer.write(grille.grille[i][j].toString(), 0, grille.grille[i][j].toString().length());
-                            writer.write(",", 0, 1);
-                        }
-                        writer.write("\n", 0, 1);
-                    }
-                   
-                } catch (IOException x) {
-                    System.err.format("Une erreur s'est produite lors de l'écriture du fichier...", x);
-                }
-            }
-            
-            
-            
+           enregistrerSous(grille); 
         }
         
         if(nom == "Résoudre le sudoku"){
@@ -297,6 +273,70 @@ public class Fenetre extends JFrame implements ActionListener{
                 return false;
     }
     
+    public void enregistrerSous (Grille grille){
+        
+            JFileChooser chooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("txt file","txt");
+            chooser.setFileFilter(filter);
+            int returnVal = chooser.showSaveDialog(this);
+            
+            if(returnVal==JFileChooser.APPROVE_OPTION){
+                File file = chooser.getSelectedFile();
+ 
+                try (FileWriter writer = new FileWriter(file+".txt")) {
+                    for (int i = 0; i < 9; i++) {
+                        for (int j = 0; j < 9; j++){                 
+                            writer.write(grille.grille[i][j].toString(), 0, grille.grille[i][j].toString().length());
+                            writer.write(",", 0, 1);
+                        }
+                        writer.write("\n", 0, 1);
+                    }
+                   
+                } catch (IOException x) {
+                    System.err.format("Une erreur s'est produite lors de l'écriture du fichier...", x);
+                }
+            }
+    }
     
+    public void ouvrir(){
+        JFileChooser chooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("txt file","txt");
+            chooser.setFileFilter(filter);
+            int returnVal = chooser.showOpenDialog(this);
+            
+            if(returnVal==JFileChooser.APPROVE_OPTION){
+                File file = chooser.getSelectedFile();
+                Path path = file.toPath();
+                Charset charset = Charset.forName("UTF-8");
+                try (BufferedReader reader = Files.newBufferedReader(path, charset)) {
+                    String line = null;
+            
+                    Case[][] tab = new Case[9][9];
+
+                    int k = 0;
+                    int i = 0;
+
+                    while ((line = reader.readLine()) != null) {
+                        k = 0;
+                        String[] split = line.split(",");
+                        for (int j = 0; j < 9; j++) {
+                            int nb = Integer.parseInt(split[k]);
+                            if (nb != 0)
+                                tab[i][j] = new Case(nb, true);
+                            else
+                                tab[i][j] = new Case(nb);
+                            k++;
+                        }
+                        i++;      
+                    }
+                    grille.setGrille(tab);
+                    grille.displayGrille();
+                }
+                catch (IOException x) {
+                    System.err.format("Le fichier de la grille n'a pas pu être ouvert...", x);
+        }
+    }
+    
+    } 
     
 }
