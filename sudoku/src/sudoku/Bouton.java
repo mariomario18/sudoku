@@ -18,15 +18,11 @@ import javax.swing.JButton;
 public class Bouton extends JButton implements ActionListener {
     
     Case carre;
-    //private String label;
+    Grille grid;
     
-    /*public Bouton(String label){
-        super(label);
-        addActionListener(this);
-    }*/
-    
-    public Bouton(Case carre){
+    public Bouton(Grille grid, Case carre){
         this.carre = carre;
+        this.grid = grid;
         addActionListener(this);
 
         if (carre.getFixe())
@@ -40,10 +36,8 @@ public class Bouton extends JButton implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        //boolean fixe = carre.getFixe();
         if (!carre.getFixe()){
             int value = carre.getNb();
-            //System.out.println(value);
             if (value == 9){
                 setText(" ");
                 carre.setNb(0);
@@ -52,17 +46,16 @@ public class Bouton extends JButton implements ActionListener {
                 value++;
                 carre.setNb(value);
                 setText(carre.toString());
-            }
-            
-            
+                if (grid.caseValide(carre.getPosition()))
+                    setForeground(Color.GREEN);
+                else
+                    setForeground(Color.RED);
+            }      
         }
         else{
             
         }
     }
     
-    public void ajouter(){
-        
-    }
     
 }

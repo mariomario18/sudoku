@@ -48,16 +48,18 @@ public class Jeu {
                 
             int k = 0;
             int i = 0;
+            int position;
             
             while ((line = reader.readLine()) != null) {
                 k = 0;
                 String[] split = line.split(",");
                 for (int j = 0; j < 9; j++) {
                     int nb = Integer.parseInt(split[k]);
+                    position = (i*9) + j;
                     if (nb != 0)
-                        tab[i][j] = new Case(nb, true);
+                        tab[i][j] = new Case(nb, true, position);
                     else
-                        tab[i][j] = new Case(nb);
+                        tab[i][j] = new Case(nb, position);
                     k++;
                 }
                 i++;      

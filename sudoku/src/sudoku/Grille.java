@@ -5,6 +5,7 @@
  */
 package sudoku;
 
+import java.awt.Color;
 import java.util.Arrays;
 
 /**
@@ -24,25 +25,29 @@ public class Grille {
         }
     }
     
-    public boolean absentSurLigne (int k, int i){
-        for (int j=0; j < 9; j++){
+    public void setGrille(Case[][] grille){
+        this.grille = grille;
+    }
+    
+    public boolean absentSurLigne(int k, int i){
+        for (int j = 0; j < 9; j++){
             if (grille[i][j].getNb() == k)
                 return false;
         }
         return true;
     }
     
-    public boolean absentSurColonne (int k, int j){
-        for (int i=0; i < 9; i++){
+    public boolean absentSurColonne(int k, int j){
+        for (int i = 0; i < 9; i++){
             if (grille[i][j].getNb() == k)
                 return false;
         }
         return true;
     }
 
-    public boolean absentSurBloc (int k, int i, int j){
-        int x = i-(i%3);
-        int y = j-(j%3);
+    public boolean absentSurBloc(int k, int i, int j){
+        int x = i - (i%3);
+        int y = j -( j%3);
 
         for (i = x; i < x + 3; i++){
             for (j = y; j < y + 3; j++){
@@ -76,5 +81,54 @@ public class Grille {
         grille[i][j].setNb(0);
         
         return false;
+    }
+    
+    public boolean ligneValide(int k, int i, int position){
+        for (int j = 0; j < 9; j++){
+            if(grille[i][j].getNb() == k && grille[i][j].getPosition() != position){
+                if(!grille[i][j].getFixe())
+                    grille[i][j].bouton.setForeground(Color.red);
+                
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public boolean colValide(int k, int j, int position){
+        for (int i = 0; i < 9; i++){
+            if(grille[i][j].getNb() == k && grille[i][j].getPosition() != position){
+                if(!grille[i][j].getFixe())
+                    grille[i][j].bouton.setForeground(Color.red);
+                
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public boolean valideSurBloc(int k, int i, int j, int position){
+        int x = i - (i%3);
+        int y = j -( j%3);
+
+        for (i = x; i < x + 3; i++){
+            for (j = y; j < y + 3; j++){
+                if (grille[i][j].getNb() == k && grille[i][j].getPosition() != position){
+                    if(!grille[i][j].getFixe())
+                        grille[i][j].bouton.setForeground(Color.red);
+                
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    public boolean caseValide(int position){
+        int x = position/9;
+        int y = position%9;
+        int k = grille[x][y].getNb();
+        System.out.println(k);
+        return colValide(k, y, position) && ligneValide(k, x, position) && valideSurBloc(k, x, y, position);
     }
 }

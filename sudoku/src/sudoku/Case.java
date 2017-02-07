@@ -12,24 +12,30 @@ package sudoku;
 public class Case {
     public int nb;
     public boolean fixe;
+    public int position;
+    public Bouton bouton;
     
-    public Case(){
+    public Case(int position){
         this.nb = 0;
         this.fixe = false;
+        this.position = position;
     }
     
-    public Case(int nb){
+    public Case(int nb, int position){
         this.nb = nb;
         this.fixe = false;
+        this.position = position;
     }
     
-    public Case(int nb, boolean fixe){
+    
+    public Case(int nb, boolean fixe, int position){
         this.nb = nb;
         this.fixe = fixe;
+        this.position = position;
     }
     
     public int getNb(){
-        return this.nb;
+        return nb;
     }
     
     public void setNb(int nb){
@@ -37,8 +43,18 @@ public class Case {
     }
     
     public boolean getFixe(){
-        return this.fixe;
+        return fixe;
     }
+
+    public int getPosition(){
+        return position;
+    }
+    
+    public void setBouton(Bouton bouton){
+        this.bouton = bouton;
+    }
+    
+    
     
     @Override
     public String toString(){

@@ -15,26 +15,108 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
  * @author Clément
  */
-public class Fenetre extends JFrame{
+public class Fenetre extends JFrame implements ActionListener{
+    
+    Grille grille;
+    
+    public void actionPerformed(ActionEvent e){
+        System.out.print("lol");
+        
+        JMenuItem source = (JMenuItem)(e.getSource());
+        String nom = source.getText();
+        System.out.println(nom);
+        
+        if(nom == "Ouvrir"){
+            ouvrir();
+        }
+       
+        if(nom == "Fermer"){
+            System.exit(0);
+        }
+        
+        if(nom == "Enregistrer"){
+           enregistrer(grille);
+        }
+        
+        
+        if(nom == "Enregistrer sous"){
+           enregistrerSous(grille); 
+        }
+        
+        if(nom == "Résoudre le sudoku"){
+            
+        }
+        
+        if(nom == "Régles"){
+            JFrame regle = new JFrame();
+            regle.setTitle("Règles");
+            regle.setSize(350,350);
+            regle.setVisible(true);
+        }
+    
+    }
     
     public Fenetre(Grille grille){
         
+        this.grille=grille;
         this.setTitle("Sudoku de folie");
-        this.setSize(616, 639);
-        this.setMinimumSize(new Dimension(616, 639));
+        this.setSize(700, 700);
+        this.setMinimumSize(new Dimension(700, 700));
         this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menu = new JMenu("Fichier");
+        JMenu menu1 = new JMenu("Aide");
+        JMenuItem menuItem = new JMenuItem("Ouvrir");
+        menuItem.addActionListener(this);
+        JMenuItem menuItem1 = new JMenuItem("Fermer");
+        menuItem1.addActionListener(this);
+        JMenuItem menuItem2 = new JMenuItem("Enregistrer");
+        menuItem2.addActionListener(this);
+        JMenuItem menuItem3 = new JMenuItem("Enregistrer sous");
+        menuItem3.addActionListener(this);
+        JMenuItem menuItem4 = new JMenuItem("Résoudre le sudoku");
+        menuItem4.addActionListener(this);
+        JMenuItem menuItem5 = new JMenuItem("Règles");
+        menuItem5.addActionListener(this);
+        menu.add(menuItem);
+        menu.add(menuItem1);
+        menu.add(menuItem2);
+        menu.add(menuItem3);
+        menu.add(menuItem4);
+        menu1.add(menuItem5);
+        menuBar.add(menu);
+        menuBar.add(menu1);
+        setJMenuBar(menuBar); 
 
         JPanel cell1 = new JPanel();
         cell1.setLayout(new GridLayout(3, 3));
         for(int i=0;i<3;i++){
             for (int j = 0; j < 3; j++) {
-                cell1.add(new Bouton(grille.grille[i][j]));
+                cell1.add(new Bouton(grille, grille.grille[i][j]));
             }
         }
         cell1.setBackground(Color.GRAY);
@@ -44,7 +126,7 @@ public class Fenetre extends JFrame{
         cell2.setLayout(new GridLayout(3, 3));
         for(int i=0;i<3;i++){
             for (int j = 3; j < 6; j++) {
-                cell2.add(new Bouton(grille.grille[i][j]));
+                cell2.add(new Bouton(grille, grille.grille[i][j]));
             }
         }
         cell2.setBackground(Color.LIGHT_GRAY);
@@ -54,7 +136,7 @@ public class Fenetre extends JFrame{
         cell3.setLayout(new GridLayout(3, 3));        
         for(int i=0;i<3;i++){
             for (int j = 6; j < 9; j++) {
-                cell3.add(new Bouton(grille.grille[i][j]));
+                cell3.add(new Bouton(grille, grille.grille[i][j]));
             }
         }
         cell3.setBackground(Color.GRAY);
@@ -64,7 +146,7 @@ public class Fenetre extends JFrame{
         cell4.setLayout(new GridLayout(3, 3));     
         for(int i=3;i<6;i++){
             for (int j = 0; j < 3; j++) {
-                cell4.add(new Bouton(grille.grille[i][j]));
+                cell4.add(new Bouton(grille, grille.grille[i][j]));
             }
         }
         cell4.setBackground(Color.LIGHT_GRAY);
@@ -74,7 +156,7 @@ public class Fenetre extends JFrame{
         cell5.setLayout(new GridLayout(3, 3));
         for(int i=3;i<6;i++){
             for (int j = 3; j < 6; j++) {
-                cell5.add(new Bouton(grille.grille[i][j]));
+                cell5.add(new Bouton(grille, grille.grille[i][j]));
             }
         }
         cell5.setBackground(Color.GRAY);
@@ -84,7 +166,7 @@ public class Fenetre extends JFrame{
         cell6.setLayout(new GridLayout(3, 3));
         for(int i=3;i<6;i++){
             for (int j = 6; j < 9; j++) {
-                cell6.add(new Bouton(grille.grille[i][j]));
+                cell6.add(new Bouton(grille, grille.grille[i][j]));
             }
         }
         cell6.setBackground(Color.LIGHT_GRAY);
@@ -94,7 +176,7 @@ public class Fenetre extends JFrame{
         cell7.setLayout(new GridLayout(3, 3));
         for(int i=6;i<9;i++){
             for (int j = 0; j < 3; j++) {
-                cell7.add(new Bouton(grille.grille[i][j]));
+                cell7.add(new Bouton(grille, grille.grille[i][j]));
             }
         }
         cell7.setBackground(Color.GRAY);
@@ -104,7 +186,7 @@ public class Fenetre extends JFrame{
         cell8.setLayout(new GridLayout(3, 3));
         for(int i=6;i<9;i++){
             for (int j = 3; j < 6; j++) {
-                cell8.add(new Bouton(grille.grille[i][j]));
+                cell8.add(new Bouton(grille, grille.grille[i][j]));
             }
         }
         cell8.setBackground(Color.LIGHT_GRAY);
@@ -114,131 +196,58 @@ public class Fenetre extends JFrame{
         cell9.setLayout(new GridLayout(3, 3));
         for(int i=6;i<9;i++){
             for (int j = 6; j < 9; j++) {
-                cell9.add(new Bouton(grille.grille[i][j]));
+                cell9.add(new Bouton(grille, grille.grille[i][j]));
             }
         }
         cell9.setBackground(Color.GRAY);
         cell9.setPreferredSize(new Dimension(200,200));
 
-
-
-        //Le conteneur principal
-
         JPanel content = new JPanel();
-
-        //content.setPreferredSize(new Dimension(600, 600));
 
         content.setBackground(Color.WHITE);
 
-        //On définit le layout manager
-
         content.setLayout(new GridBagLayout());
-
-
-
-        //L'objet servant à positionner les composants
 
         GridBagConstraints gbc = new GridBagConstraints();
 
-
-
-        //On positionne la case de départ du composant
-
         gbc.gridx = 0;
-
         gbc.gridy = 0;
-
-        //La taille en hauteur et en largeur
-
         gbc.gridheight = 1;
-
         gbc.gridwidth = 1;
-
         content.add(cell1, gbc);
 
-        //---------------------------------------------
-
         gbc.gridx = 1;
-
         gbc.gridy = 0;
-
         content.add(cell2, gbc);
 
-        //---------------------------------------------
-
         gbc.gridx = 2;
-
         gbc.gridy = 0;
-
         content.add(cell3, gbc);        
 
-        //---------------------------------------------
-
-        //Cette instruction informe le layout que c'est une fin de ligne
-
-        //gbc.gridwidth = GridBagConstraints.REMAINDER;
-
         gbc.gridx = 0; 
-
         gbc.gridy = 1;
-
         content.add(cell4, gbc);
 
-        //---------------------------------------------
-
         gbc.gridx = 1;
-
         gbc.gridy = 1;
-
         gbc.gridwidth = 1;
-
         gbc.gridheight = 1;
-
-        //Celle-ci indique que la cellule se réplique de façon verticale
-
-        //gbc.fill = GridBagConstraints.VERTICAL;
-
         content.add(cell5, gbc);
 
-        //---------------------------------------------
-
         gbc.gridx = 2;
-
         gbc.gridheight = 1;
-
-        //Celle-ci indique que la cellule se réplique de façon horizontale
-
-        //gbc.fill = GridBagConstraints.HORIZONTAL;
-
-        //gbc.gridwidth = GridBagConstraints.REMAINDER;
-
         content.add(cell6, gbc);
 
-        //---------------------------------------------
-
         gbc.gridx = 0;
-
         gbc.gridy = 2;
-
-        //gbc.gridwidth = 1;
-
         content.add(cell7, gbc);
 
-        //---------------------------------------------
-
         gbc.gridx = 1;
-
         gbc.gridy = 2;
-
-        //gbc.gridwidth = GridBagConstraints.REMAINDER;
-
         content.add(cell8, gbc);
 
-        //---------------------------------------------
         gbc.gridx = 2;
-
         gbc.gridy = 2;
-
         content.add(cell9, gbc);
         //On ajoute le conteneur
 
@@ -247,6 +256,93 @@ public class Fenetre extends JFrame{
         this.setVisible(true);      
     
     }
+    
+    public boolean enregistrer(Grille grille){
+       Path file = FileSystems.getDefault().getPath("grid", "solution.txt");
+          Charset charset = Charset.forName("UTF-8");
+                try (BufferedWriter writer = Files.newBufferedWriter(file, charset)) {
+                    for (int i = 0; i < 9; i++) {
+                        for (int j = 0; j < 9; j++){                 
+                            writer.write(grille.grille[i][j].toString(), 0, grille.grille[i][j].toString().length());
+                            writer.write(",", 0, 1);
+                        }
+                        writer.write("\n", 0, 1);
+                    }
+                    return true;
+                } catch (IOException x) {
+                    System.err.format("Une erreur s'est produite lors de l'écriture du fichier...", x);
+                }
+           
+                return false;
+    }
+    
+    public void enregistrerSous (Grille grille){
+        
+            JFileChooser chooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("txt file","txt");
+            chooser.setFileFilter(filter);
+            int returnVal = chooser.showSaveDialog(this);
+            
+            if(returnVal==JFileChooser.APPROVE_OPTION){
+                File file = chooser.getSelectedFile();
+ 
+                try (FileWriter writer = new FileWriter(file+".txt")) {
+                    for (int i = 0; i < 9; i++) {
+                        for (int j = 0; j < 9; j++){                 
+                            writer.write(grille.grille[i][j].toString(), 0, grille.grille[i][j].toString().length());
+                            writer.write(",", 0, 1);
+                        }
+                        writer.write("\n", 0, 1);
+                    }
+                   
+                } catch (IOException x) {
+                    System.err.format("Une erreur s'est produite lors de l'écriture du fichier...", x);
+                }
+            }
+    }
+    
+    public void ouvrir(){
+        JFileChooser chooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("txt file","txt");
+            chooser.setFileFilter(filter);
+            int returnVal = chooser.showOpenDialog(this);
+            
+            if(returnVal==JFileChooser.APPROVE_OPTION){
+                File file = chooser.getSelectedFile();
+                Path path = file.toPath();
+                Charset charset = Charset.forName("UTF-8");
+                try (BufferedReader reader = Files.newBufferedReader(path, charset)) {
+                    String line = null;
+
+                    Case[][] tab = new Case[9][9];
+
+                    int k = 0;
+                    int i = 0;
+                    int position;
+
+                    while ((line = reader.readLine()) != null) {
+                        k = 0;
+                        String[] split = line.split(",");
+                        for (int j = 0; j < 9; j++) {
+                            int nb = Integer.parseInt(split[k]);
+                            position = (i*9) + j;
+                            if (nb != 0)
+                                tab[i][j] = new Case(nb, true, position);
+                            else
+                                tab[i][j] = new Case(nb, position);
+                            k++;
+                        }
+                        i++;      
+                    }
+                    grille.setGrille(tab);
+                    grille.displayGrille();
+                }
+                catch (IOException x) {
+                    System.err.format("Le fichier de la grille n'a pas pu être ouvert...", x);
+        }
+    }
+    
+    } 
     
     
     
