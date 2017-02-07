@@ -23,6 +23,7 @@ public class Bouton extends JButton implements ActionListener {
     public Bouton(Grille grid, Case carre){
         this.carre = carre;
         this.grid = grid;
+        this.carre.setBouton(this);
         addActionListener(this);
 
         if (carre.getFixe())

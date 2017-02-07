@@ -6,13 +6,8 @@
 package sudoku;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.TextArea;
-import java.io.IOException;
-import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  *

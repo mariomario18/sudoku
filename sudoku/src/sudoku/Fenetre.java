@@ -8,7 +8,6 @@ package sudoku;
 
 
 import javax.swing.JFrame;
-import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -26,8 +25,6 @@ import java.nio.charset.Charset;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -43,32 +40,31 @@ public class Fenetre extends JFrame implements ActionListener{
     Grille grille;
     
     public void actionPerformed(ActionEvent e){
-        System.out.print("lol");
         
         JMenuItem source = (JMenuItem)(e.getSource());
         String nom = source.getText();
-        System.out.println(nom);
         
-        if(nom == "Ouvrir"){
+        if("Ouvrir".equals(nom)){
             ouvrir();
         }
        
-        if(nom == "Fermer"){
+        if("Fermer".equals(nom)){
             System.exit(0);
         }
         
-        if(nom == "Enregistrer"){
+        if("Enregistrer".equals(nom)){
            enregistrer(grille);
         }
        
-        if(nom == "Enregistrer sous")
+        if("Enregistrer sous".equals(nom))
            enregistrerSous(grille); 
         
-        if(nom == "Résoudre le sudoku"){
-            
+        if("Résoudre le sudoku".equals(nom)){
+            grille.estValide(0);
+            Win win = new Win();
         }
         
-        if(nom == "Régles"){
+        if("Régles".equals(nom)){
             Aide aide = new Aide();
         }
     }

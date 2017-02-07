@@ -72,6 +72,7 @@ public class Grille {
         for (int k=1; k <= 9; k++){
             if (absentSurLigne(k,i) && absentSurColonne(k,j) && absentSurBloc(k,i,j)){
                 grille[i][j].setNb(k);
+                grille[i][j].bouton.setText(grille[i][j].toString());
 
                 if (estValide(position+1))
                     return true;
@@ -107,7 +108,7 @@ public class Grille {
 
         for (i = x; i < x + 3; i++){
             for (j = y; j < y + 3; j++){
-                if (grille[x][y].getNb() == k && grille[x][y].getPosition() != position){               
+                if (grille[i][j].getNb() == k && grille[i][j].getPosition() != position){               
                     return false;
                 }
             }
