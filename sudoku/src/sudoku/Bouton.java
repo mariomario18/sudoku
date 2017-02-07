@@ -46,14 +46,10 @@ public class Bouton extends JButton implements ActionListener {
                 value++;
                 carre.setNb(value);
                 setText(carre.toString());
-                if (grid.caseValide(carre.getPosition()))
-                    setForeground(Color.GREEN);
-                else
-                    setForeground(Color.RED);
-            }      
-        }
-        else{
-            
+            }
+            if (grid.grilleValide()){
+                Win win = new Win();
+            }
         }
     }
     

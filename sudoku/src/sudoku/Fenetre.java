@@ -60,23 +60,17 @@ public class Fenetre extends JFrame implements ActionListener{
         if(nom == "Enregistrer"){
            enregistrer(grille);
         }
-        
-        
-        if(nom == "Enregistrer sous"){
+       
+        if(nom == "Enregistrer sous")
            enregistrerSous(grille); 
-        }
         
         if(nom == "Résoudre le sudoku"){
             
         }
         
         if(nom == "Régles"){
-            JFrame regle = new JFrame();
-            regle.setTitle("Règles");
-            regle.setSize(350,350);
-            regle.setVisible(true);
+            Aide aide = new Aide();
         }
-    
     }
     
     public Fenetre(Grille grille){

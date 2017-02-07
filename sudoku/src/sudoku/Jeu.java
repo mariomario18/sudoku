@@ -26,18 +26,6 @@ public class Jeu {
      */
     public static void main(String[] args) {
         
-        /*Case[][] tab = new Case[9][9];
-        int k = 1;
-        
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                k = (int) (Math.random() * 9 + 1);
-                tab[i][j] = new Case(k, true);
-            }
-        }
-        Grille grille = new Grille(tab);
-        grille.displayGrille();*/
-        
         Path file = FileSystems.getDefault().getPath("grid", "grid.txt");
         Charset charset = Charset.forName("UTF-8");
         

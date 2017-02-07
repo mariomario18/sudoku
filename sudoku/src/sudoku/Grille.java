@@ -86,9 +86,6 @@ public class Grille {
     public boolean ligneValide(int k, int i, int position){
         for (int j = 0; j < 9; j++){
             if(grille[i][j].getNb() == k && grille[i][j].getPosition() != position){
-                if(!grille[i][j].getFixe())
-                    grille[i][j].bouton.setForeground(Color.red);
-                
                 return false;
             }
         }
@@ -98,9 +95,6 @@ public class Grille {
     public boolean colValide(int k, int j, int position){
         for (int i = 0; i < 9; i++){
             if(grille[i][j].getNb() == k && grille[i][j].getPosition() != position){
-                if(!grille[i][j].getFixe())
-                    grille[i][j].bouton.setForeground(Color.red);
-                
                 return false;
             }
         }
@@ -113,10 +107,7 @@ public class Grille {
 
         for (i = x; i < x + 3; i++){
             for (j = y; j < y + 3; j++){
-                if (grille[i][j].getNb() == k && grille[i][j].getPosition() != position){
-                    if(!grille[i][j].getFixe())
-                        grille[i][j].bouton.setForeground(Color.red);
-                
+                if (grille[x][y].getNb() == k && grille[x][y].getPosition() != position){               
                     return false;
                 }
             }
@@ -130,5 +121,13 @@ public class Grille {
         int k = grille[x][y].getNb();
         System.out.println(k);
         return colValide(k, y, position) && ligneValide(k, x, position) && valideSurBloc(k, x, y, position);
+    }
+    
+    public boolean grilleValide(){
+        int k = 0;
+        while(caseValide(k) && k < 80){
+            k++;
+        }
+        return k == 80;
     }
 }
