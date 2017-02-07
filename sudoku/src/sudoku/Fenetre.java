@@ -68,11 +68,8 @@ public class Fenetre extends JFrame implements ActionListener{
             
         }
         
-        if(nom == "Régles"){
-            JFrame regle = new JFrame();
-            regle.setTitle("Règles");
-            regle.setSize(350,350);
-            regle.setVisible(true);
+        if(nom == "Règles"){
+            Aide aide = new Aide();
         }
     
     }

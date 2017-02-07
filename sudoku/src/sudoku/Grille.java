@@ -24,6 +24,10 @@ public class Grille {
         }
     }
     
+    public void setGrille(Case[][] grille){
+        this.grille = grille;
+    }
+    
     public boolean absentSurLigne (int k, int i){
         for (int j=0; j < 9; j++){
             if (grille[i][j].getNb() == k)
