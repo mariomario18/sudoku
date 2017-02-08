@@ -35,6 +35,10 @@ public class Bouton extends JButton implements ActionListener {
             setText(carre.toString());
     }
     
+    public void setCarre(Case carre){
+        this.carre = carre;
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         if (!carre.getFixe()){

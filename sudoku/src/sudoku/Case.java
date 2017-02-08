@@ -60,4 +60,12 @@ public class Case {
     public String toString(){
         return Integer.toString(nb);
     }
+
+    void setFixe(boolean fixe) {
+        this.fixe = fixe;
+    }
+
+    void setPosition(int position) {
+        this.position = position;
+    }
 }

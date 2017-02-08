@@ -25,6 +25,7 @@ import java.nio.charset.Charset;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -39,13 +40,14 @@ public class Fenetre extends JFrame implements ActionListener{
     
     Grille grille;
     
+    @Override
     public void actionPerformed(ActionEvent e){
         
         JMenuItem source = (JMenuItem)(e.getSource());
         String nom = source.getText();
         
         if("Ouvrir".equals(nom)){
-            ouvrir();
+            ouvrir(grille);
         }
        
         if("Fermer".equals(nom)){
@@ -53,18 +55,19 @@ public class Fenetre extends JFrame implements ActionListener{
         }
         
         if("Enregistrer".equals(nom)){
-           enregistrer(grille);
+            enregistrer(grille);
         }
        
-        if("Enregistrer sous".equals(nom))
-           enregistrerSous(grille); 
+        if("Enregistrer sous".equals(nom)){
+            enregistrerSous(grille);
+        }
         
         if("Résoudre le sudoku".equals(nom)){
             grille.estValide(0);
             Win win = new Win();
         }
         
-        if("Régles".equals(nom)){
+        if("Règles".equals(nom)){
             Aide aide = new Aide();
         }
     }
@@ -92,12 +95,12 @@ public class Fenetre extends JFrame implements ActionListener{
         menuItem4.addActionListener(this);
         JMenuItem menuItem5 = new JMenuItem("Règles");
         menuItem5.addActionListener(this);
-        menu.add(menuItem);
-        menu.add(menuItem1);
+        menu.add(menuItem);       
         menu.add(menuItem2);
         menu.add(menuItem3);
         menu.add(menuItem4);
         menu1.add(menuItem5);
+        menu.add(menuItem1);
         menuBar.add(menu);
         menuBar.add(menu1);
         setJMenuBar(menuBar); 
@@ -239,7 +242,6 @@ public class Fenetre extends JFrame implements ActionListener{
         gbc.gridx = 2;
         gbc.gridy = 2;
         content.add(cell9, gbc);
-        //On ajoute le conteneur
 
         this.setContentPane(content);
 
@@ -291,7 +293,7 @@ public class Fenetre extends JFrame implements ActionListener{
             }
     }
     
-    public void ouvrir(){
+    public void ouvrir(Grille grille){
         JFileChooser chooser = new JFileChooser();
             FileNameExtensionFilter filter = new FileNameExtensionFilter("txt file","txt");
             chooser.setFileFilter(filter);
@@ -316,15 +318,24 @@ public class Fenetre extends JFrame implements ActionListener{
                         for (int j = 0; j < 9; j++) {
                             int nb = Integer.parseInt(split[k]);
                             position = (i*9) + j;
-                            if (nb != 0)
-                                tab[i][j] = new Case(nb, true, position);
-                            else
-                                tab[i][j] = new Case(nb, position);
+                            if (nb != 0){
+                                grille.grille[i][j].setNb(nb);
+                                grille.grille[i][j].setFixe(true);
+                                grille.grille[i][j].setPosition(position);
+                                grille.grille[i][j].bouton.setText(grille.grille[i][j].toString());
+                                grille.grille[i][j].bouton.setBackground(Color.WHITE);
+                            }
+                            else{
+                                grille.grille[i][j].setNb(nb);
+                                grille.grille[i][j].setFixe(false);
+                                grille.grille[i][j].setPosition(position);
+                                grille.grille[i][j].bouton.setText(" ");
+                                grille.grille[i][j].bouton.setBackground(new JButton().getBackground());
+                            }
                             k++;
                         }
                         i++;      
                     }
-                    grille.setGrille(tab);
                     grille.displayGrille();
                 }
                 catch (IOException x) {
